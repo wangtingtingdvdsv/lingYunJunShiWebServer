@@ -1,4 +1,7 @@
 git add .
-git commit -m "³ÖĞø¸üĞÂ"
+echo "************"
+git commit -m "æŒç»­æ›´æ–°ä¸­"
+echo "**************"
 git push origin master
+echo "***********"
 git status
