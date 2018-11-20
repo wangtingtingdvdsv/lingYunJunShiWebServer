@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "supervisor bin/www.js",
-    "dev": "./node_modules/.bin/nodemon bin/www.js",
-    "prd": "pm2 start bin/www.js",
+    "start": "supervisor bin/lingYunJunShiWebServer.js",
+    "dev": "./node_modules/.bin/nodemon bin/lingYunJunShiWebServer.js",
+    "prd": "pm2 start bin/lingYunJunShiWebServer.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
