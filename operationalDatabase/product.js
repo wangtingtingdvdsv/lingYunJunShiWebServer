@@ -14,7 +14,7 @@ const addCarouselProduct = async (ctx, next) => {
         return "商品不存在";
     }
     
-    sql = `update dishes set product_carousel = 1 where product_id = ${data.productId}`;
+    sql = `update product set product_carousel = 1 where product_id = ${data.productId}`;
     connection.query(sql,function (err, result) {
         if(err){
           console.log('[SELECT ERROR] - ',err.message);
@@ -40,7 +40,7 @@ const deleteCarouselProduct = async (ctx, next) => {
         return "商品不存在";
     }
     
-    sql = `update dishes set product_carousel = 0 where product_id = ${data.productId}`;
+    sql = `update product set product_carousel = 0 where product_id = ${data.productId}`;
     connection.query(sql,function (err, result) {
         if(err){
           console.log('[SELECT ERROR] - ',err.message);
@@ -56,7 +56,7 @@ const deleteCarouselProduct = async (ctx, next) => {
 }
 
 function getProductById(id) {
-    var  sql = `SELECT * from dishes WHERE product_id=${id}`;
+    var  sql = `SELECT * from product WHERE product_id=${id}`;
     return new Promise((resolve, reject) => {
         connection.query(sql, ( err, result) => {
             if ( err ) {
@@ -75,7 +75,7 @@ const changeProductInfo = (ctx, next) => {
    
     if(data.productId) { //修改类目信息
         console.log('###########');
-        sql = `UPDATE dishes SET product_name='${data.productName}'  , product_price='${data.productPrice}', product_description='${data.productDescription}', seller_phone='${data.sellerPhone}', product_icon='${data.productIcon}', category_type='${data.categoryType}'
+        sql = `UPDATE  SET product_name='${data.productName}'  , product_price='${data.productPrice}', product_description='${data.productDescription}', seller_phone='${data.sellerPhone}', product_icon='${data.productIcon}', category_type='${data.categoryType}'
         WHERE product_id='${data.productId}'`;
         connection.query(sql,function (err, result) {
             if(err){
@@ -84,7 +84,7 @@ const changeProductInfo = (ctx, next) => {
             }
         })
     } else { //新增类目
-        sql = `INSERT INTO dishes(product_name, product_price, product_description, seller_phone, product_icon, category_type) values ('${data.productName}', '${data.productPrice}', '${data.productDescription}', '${data.sellerPhone}', '${data.productIcon}', '${data.categoryType}')`;
+        sql = `INSERT INTO product(product_name, product_price, product_description, seller_phone, product_icon, category_type) values ('${data.productName}', '${data.productPrice}', '${data.productDescription}', '${data.sellerPhone}', '${data.productIcon}', '${data.categoryType}')`;
         connection.query(sql,function (err, result) {
             if(err){
               console.log('[SELECT ERROR] - ',err.message);
@@ -127,7 +127,7 @@ const productOffSale = (ctx, next) => { //商品下架
     if(!id) {
         return;
     }
-    var sql = `UPDATE dishes SET product_status='${data.productStatus}'
+    var sql = `UPDATE  SET product_status='${data.productStatus}'
     WHERE product_id='${id}'`;
     connection.query(sql,function (err, result) {
         if(err){
@@ -152,7 +152,7 @@ const productOnSale = (ctx, next) => { //商品上架
     if(!id) {
         return;
     }
-    var sql = `UPDATE dishes SET product_status='${data.productStatus}'
+    var sql = `UPDATE product SET product_status='${data.productStatus}'
     WHERE product_id='${id}'`;
     connection.query(sql,function (err, result) {
         if(err){
@@ -174,7 +174,7 @@ const productOnSale = (ctx, next) => { //商品上架
 function getProductByPageAndSize(page, size) {
 
     var start = (page-1) * size;
-    var  sql = `SELECT * from dishes LIMIT ${start}, ${size}`; //从start+1条开始的size条（下标从0开始的）
+    var  sql = `SELECT * from product LIMIT ${start}, ${size}`; //从start+1条开始的size条（下标从0开始的）
     return new Promise((resolve, reject) => {
         connection.query(sql, ( err, result) => {
             if ( err ) {

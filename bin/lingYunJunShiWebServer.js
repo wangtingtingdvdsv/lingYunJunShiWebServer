@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+
 
 /**
  * Module dependencies.
@@ -51,9 +51,7 @@ function normalizePort(val) {
   return false;
 }
 
-/**
- * Event listener for HTTP server "error" event.
- */
+
 
 function onError(error) {
   if (error.syscall !== 'listen') {
@@ -79,9 +77,7 @@ function onError(error) {
   }
 }
 
-/**
- * Event listener for HTTP server "listening" event.
- */
+
 
 function onListening() {
   var addr = server.address();

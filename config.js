@@ -1,8 +1,7 @@
 module.exports = {
-    host: '123.207.239.126',
+    host: 'wangtingting.top',
     user:'root',
- 
-    password:'612501',
+    password:'',
     database: 'lingYunJunShi'
 }
 // module.exports = {

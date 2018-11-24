@@ -4,7 +4,7 @@ var connection = mysql.createConnection(config);
 connection.connect();
 
 function getAllCategory() {
-    let sql = `SELECT * from categorytable`;
+    let sql = `SELECT * from category`;
     return new Promise((resolve, reject) => {
         connection.query(sql, ( err, result) => {
             if ( err ) {
@@ -17,7 +17,7 @@ function getAllCategory() {
 }
 
  function getCategoryById(id) {
-    var  sql = `SELECT * from categorytable WHERE category_id=${id}`;
+    var  sql = `SELECT * from category WHERE category_id=${id}`;
     var data = {};
     return new Promise((resolve, reject) => {
         connection.query(sql, ( err, result) => {
@@ -53,7 +53,7 @@ const changeCategoryInfo = async (ctx, next) => {
     var data = ctx.request.body;
     var sql;
     if(data.categoryId) { //修改类目信息
-        sql = `UPDATE categorytable SET category_name='${data.categoryName}'
+        sql = `UPDATE category SET category_name='${data.categoryName}'
         WHERE  category_id =${data.categoryId}`;
         var result = await connection.query(sql,function (err, result) {
             if(err){
@@ -63,7 +63,7 @@ const changeCategoryInfo = async (ctx, next) => {
             return result;
         })
     } else { //新增类目
-        sql = `INSERT INTO categorytable (category_name) values ('${data.categoryName}')`;
+        sql = `INSERT INTO category (category_name) values ('${data.categoryName}')`;
         var result = await connection.query(sql,function (err, result) {
             if(err){
               console.log('[SELECT ERROR] - ',err.message);
