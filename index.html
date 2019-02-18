@@ -13,16 +13,21 @@
 <script>
 // $.ajax({  //添加和修改商品
 //     type: 'POST',
-//     url: 'http://localhost:9008/seller/product/save',
+//     url: 'https://wangtingting.top:9006/buyer/createOrder',
 //     data: {
-//         productId:1,
-//         productName:'$$$$$',
-//         productPrice:'34',
-//         productDescription:'34',
-//         productIcon:'er',
-//         sellerPhone:324,
-//         categoryType:4
-//       },
+//     userName: "张三",
+//     userPhone: "18868822111",
+//     userAddress: "慕课网总部",
+//     userOpenid: "ew3euwhd7sjw9diwkq",
+//     deliveryTime:1533340109205,
+//     items: [{
+//         productId: "1",
+//         productQuantity: 3 
+//     },{
+//         productId: "15334397164282686",
+//         productQuantity: 1 
+//     }]
+// },
 //     success: function(data) {
 //         console.log(data);
 //     }
@@ -56,19 +61,6 @@
 //     url: 'http://localhost:9008/seller/product/onSale/3',
 //     data: {
 //          productStatus:0
-
-//       },
-//     success: function(data) {
-//         console.log(data);
-//     }
-// })
-
-// $.ajax({  //商品上架
-//     type: 'POST',
-//     url: 'http://localhost:3005/seller/carouselProduct/delete',
-//     data: {
-//          productName:'箱子',
-//             productId:4
 
 //       },
 //     success: function(data) {
@@ -141,22 +133,8 @@
 //         console.log("eerror", error);
 //     }
 // })
-
-
-
- $.ajax({ //发货
-    type: 'post',
-    url: 'http://localhost:3005/seller/order/send/4',
-    success: function(data) {
-        console.log('dsuccess', data);
-    },
-    error: function(error){
-        console.log("eerror", error);
-    }
-})
-
 // $.ajax({
-//           url: 'http://localhost:9008/admin/register',  //注册
+//           url: 'http://localhost:9008/admin/register',
 //           type: 'post',
 //           data:{
 //                userName: 1221, 
