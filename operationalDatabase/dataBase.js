@@ -323,15 +323,13 @@ const deleteProduct = (ctx, next) => {
         data: null
     }
 }
-const addProductPic = (ctx, next) => {
-    console.log("1", ctx.request.body);
-    console.log("2", ctx.query);
-    ctx.status = 200;
-    ctx.body = {
-        code: 0,
-        msg: "请求成功",
-        data: null
-    }
+const addProductPic = (sql) => {
+    connection.query(sql, ( err, result) => {
+        if(err){
+            console.log('[SELECT ERROR] - ',err.message);
+            return;
+          }
+    })    
 }
 function getProductById(id) {
     var  sql = `SELECT * from dishes WHERE product_id=${id}`;
@@ -355,25 +353,36 @@ const changeProductInfo = (ctx, next) => {
    
     if(data.productId) { //修改类目信息
         console.log('###########');
-        sql = `UPDATE product SET product_name='${data.name}'  , product_price='${data.price}', product_description='${data.description}', seller_phone='${data.phone}', product_icon='${data.picUrl}', category_type='${data.category}'
+        sql = `UPDATE product SET product_name='${data.name}'  , product_price='${data.price}', product_description='${data.description}', seller_phone='${data.phone}', category_type='${data.category}'
         WHERE product_id='${data.productId}'`;
-        
+        let picUrlArr = data.picUrl;
+        console.log('pic', picUrlArr);
         connection.query(sql,function (err, result) {
             if(err){
               console.log('[SELECT ERROR] - ',err.message);
               return;
             }
+            console.log('result', result);
+            let productId = result.insertId;
+            let picSql = `UPDATE product_pic SET pic1='${picUrlArr[0]}'  , pic2='${picUrlArr[1]}', pic3='${picUrlArr[2]}' WHERE productId='${data.productId}'`;
+            addProductPic(picSql);
         })
         
     } else { //新增类目
-        sql = `INSERT INTO product(product_name, product_price, product_description, seller_phone, product_icon, category_type) values ('${data.name}', '${data.price}', '${data.description}', '${data.phone}', '${data.picUrl}', '${data.category}')`;
+       
+        sql = `INSERT INTO product(product_name, product_price, product_description, seller_phone, category_type) values ('${data.name}', '${data.price}', '${data.description}', '${data.phone}', '${data.category}')`;
+        let picUrlArr = data.picUrl;
+        
+       
         
         connection.query(sql,function (err, result) {
             if(err){
               console.log('[SELECT ERROR] - ',err.message);
               return;
             }
-           
+            let productId = result.insertId;
+            let picSql = `INSERT INTO product_pic(productId, pic1, pic2, pic3) values ('${productId}','${picUrlArr[0]}', '${picUrlArr[1]}', '${picUrlArr[2]}')`;
+            addProductPic(picSql);
         })
         
     }
@@ -459,6 +468,20 @@ const productOnSale = (ctx, next) => { //商品上架
     };
 }
 
+var getProductPic = function(productId){
+    let  sql = `SELECT * from product_pic where productId='${productId}'`; 
+    return new Promise((resolve, reject) => {
+        
+        connection.query(sql, ( err, result) => {
+            if ( err ) {
+              reject( err )
+            } else {
+              resolve( result )
+            }
+        })  
+    })
+}
+
 function getProductByPageAndSize() {
     var  sql = `SELECT * from product`; 
     return new Promise((resolve, reject) => {
@@ -477,7 +500,23 @@ function getProductByPageAndSize() {
 const productPagingQuery = async (ctx, next) => { //分页查询
   //通过query获取get方式中data里面的数据，通过body获取post方式中data里面的数据
     var data = await getProductByPageAndSize();
-     
+    
+     for(let i = 0; i < data.length; i++) {
+        let pic = await getProductPic(data[i].product_id)
+        
+        if(!(pic[0] == null)) {
+        
+            data[i].picUrl=pic[0].pic1;
+        }
+       
+        // data[i].picUrl = [];
+        // for(let obj in pic[0]) {
+        //     if(obj != 'productId') {
+        //         data[i].picUrl.push(pic[0][obj])
+        //     }
+        // }
+     }
+     //console.log('@@@@@@@data', data);
      ctx.status = 200;
      ctx.body = {
          code: 0,
